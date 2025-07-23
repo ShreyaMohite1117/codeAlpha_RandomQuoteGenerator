@@ -1,0 +1,201 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+void main() {
+  runApp(RandomQuoteApp());
+}
+
+class RandomQuoteApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Random Quote Generator',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        brightness: Brightness.light,
+      ),
+      home: QuotePage(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class QuotePage extends StatefulWidget {
+  @override
+  _QuotePageState createState() => _QuotePageState();
+}
+
+class _QuotePageState extends State<QuotePage> {
+  final List<Map<String, String>> quotes = [
+    {
+      "quote": "The best way to get started is to quit talking and begin doing.",
+      "author": "Walt Disney"
+    },
+    {
+      "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+      "author": "Winston Churchill"
+    },
+    {
+      "quote": "Your time is limited, so don’t waste it living someone else’s life.",
+      "author": "Steve Jobs"
+    },
+    {
+      "quote": "Don’t let yesterday take up too much of today.",
+      "author": "Will Rogers"
+    },
+    {
+      "quote": "It’s not whether you get knocked down, it’s whether you get up.",
+      "author": "Vince Lombardi"
+    },
+    {
+      "quote": "If you are working on something exciting, it will keep you motivated.",
+      "author": "Steve Jobs"
+    },
+    {
+      "quote": "The harder you work for something, the greater you'll feel when you achieve it.",
+      "author": "Unknown"
+    },
+    {
+      "quote": "Dream bigger. Do bigger.",
+      "author": "Unknown"
+    },
+    {
+      "quote": "Do something today that your future self will thank you for.",
+      "author": "Sean Patrick Flanery"
+    },
+    {
+      "quote": "Little things make big days.",
+      "author": "Isabel Marant"
+    },
+  ];
+
+  int _currentIndex = 0;
+
+  void _generateRandomQuote() {
+    setState(() {
+      int newIndex;
+      do {
+        newIndex = Random().nextInt(quotes.length);
+      } while (newIndex == _currentIndex);
+      _currentIndex = newIndex;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = Random().nextInt(quotes.length);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final quote = quotes[_currentIndex];
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "RANDOM QUOTE GENERATOR",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            backgroundColor: Colors.lightGreen.shade200,
+            wordSpacing: 3,
+            shadows: [
+              Shadow(
+                color: Colors.black.withOpacity(0.3),
+                blurRadius: 4,
+                offset: Offset(2, 2),
+              ),
+            ],
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+                width: double.infinity,
+                height: 300,
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 12,
+                      offset: Offset(4, 6),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AnimatedSwitcher(
+                      duration: Duration(milliseconds: 500),
+                      transitionBuilder: (child, animation) =>
+                          FadeTransition(opacity: animation, child: child),
+                      child: Text(
+                        '"${quote["quote"]}"',
+                        key: ValueKey(quote["quote"]),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.black87,
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 4,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    AnimatedSwitcher(
+                      duration: Duration(milliseconds: 500),
+                      child: Text(
+                        '-${quote["author"]}',
+                        key: ValueKey(quote["author"]),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.teal[700],
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+              AnimatedContainer(
+                duration: Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
+                child: ElevatedButton(
+                  onPressed: _generateRandomQuote,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.teal.shade200,
+                    elevation: 6,
+                  ),
+                  child: Text(
+                    "New Quote",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
