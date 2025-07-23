@@ -27,8 +27,10 @@ flutter run
 - Material Design
 
 # Acknowledgements
-
 Quotes from various public motivational sources.
 UI inspiration from Flutter community apps.
+
+# Output
+RandomquoteGeneratorOutput.mp4(view the raw file)
 
 
