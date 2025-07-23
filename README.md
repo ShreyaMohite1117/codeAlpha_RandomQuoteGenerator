@@ -31,3 +31,4 @@ flutter run
 Quotes from various public motivational sources.
 UI inspiration from Flutter community apps.
 
+
